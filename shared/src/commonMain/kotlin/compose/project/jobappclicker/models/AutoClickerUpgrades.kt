@@ -1,4 +1,5 @@
-package compose.project.jobappclicker
+package compose.project.jobappclicker.models
+
 /*
 Set with
 val example = AutoClickerUpgrades(
@@ -27,4 +28,3 @@ val secondaryCostFactor: Int
         return numberPurchased * autoClickIncrease
     }
 }
-

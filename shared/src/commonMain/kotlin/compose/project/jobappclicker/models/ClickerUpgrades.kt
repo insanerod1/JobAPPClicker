@@ -1,4 +1,5 @@
-package compose.project.jobappclicker
+package compose.project.jobappclicker.models
+
 /*
 Set with
 val example = ClickerUpgrades(
