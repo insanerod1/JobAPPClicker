@@ -86,7 +86,7 @@ fun MainScreen() {
         Column (
             modifier = Modifier.weight(1f),
         ){
-            Text("this is column two")
+            Text("Hello World")
         }
         Column (
             modifier = Modifier.weight(1f),
