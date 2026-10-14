@@ -116,9 +116,44 @@ fun MainScreen() {
             )
         }
         Column (
+
             modifier = Modifier.weight(1f),
+
         ){
-            Text("Hello World")
+            Text(
+                text = "Click Upgrade",
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp,
+            )
+            upgrades.forEach { upgrade ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .border(1.dp, Black, RoundedCornerShape(8.dp))
+                        .padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ){
+                    Text(upgrade.name, fontWeight = FontWeight.Bold)
+                    Text("+${upgrade.clickIncrease} applications per click")
+                    Text("Owned: ${upgrade.numberPurchased}")
+                    Text("Cost: ${upgrade.currentCost}")
+
+                    Button(
+                        enabled = count >= upgrade.currentCost,
+                        onClick = {
+                            if (count>= upgrade.currentCost) {
+                                count-= upgrade.currentCost
+                                upgrade.purchase()
+                            }
+                        }
+                    ){
+                        Text("Buy")
+                    }
+
+                }
+
+            }
         }
         Column (
             modifier = Modifier.weight(1f),
