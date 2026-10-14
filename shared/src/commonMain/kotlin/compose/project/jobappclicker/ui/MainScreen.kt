@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.models.ClickerUpgrades
 import compose.project.jobappclicker.ui.colors.Black
 import compose.project.jobappclicker.ui.colors.Grey
 import jobappclicker.shared.generated.resources.Application
@@ -41,6 +42,37 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun MainScreen() {
     var count by remember { mutableStateOf(0) }
+
+
+    val upgrades = remember {
+        listOf(
+            ClickerUpgrades(
+                name = "Better Applications",
+                clickIncrease = 2,
+                initCost = 10,
+                secondaryCostFactor = 5
+            ),
+            ClickerUpgrades(
+                name = "Resume Improvements",
+                clickIncrease = 5,
+                initCost = 50,
+                secondaryCostFactor = 10
+            ),
+            ClickerUpgrades(
+                name = "One-Thousand Pencils",
+                clickIncrease = 10,
+                initCost = 500,
+                secondaryCostFactor = 100
+            )
+        )
+    }
+
+    //Upgrades purchased with upgrades[i].purchase()
+    //TODO: make a button that can purchase upgrades and autoclickers
+
+    val clickAmount = 1 + upgrades.sumOf {
+        it.totalClickIncrease()
+    }
 
     Row (
         modifier = Modifier
@@ -78,7 +110,7 @@ fun MainScreen() {
                         shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
-                        count++
+                        count += clickAmount
 
                     }
             )
