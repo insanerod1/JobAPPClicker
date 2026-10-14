@@ -116,9 +116,7 @@ fun MainScreen() {
             )
         }
         Column (
-
             modifier = Modifier.weight(1f),
-
         ){
             Text(
                 text = "Click Upgrade",

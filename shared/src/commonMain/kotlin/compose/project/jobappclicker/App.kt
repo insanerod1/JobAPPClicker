@@ -14,6 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import compose.project.jobappclicker.controllers.PlayerController
+import compose.project.jobappclicker.models.Player
 import compose.project.jobappclicker.ui.MainScreen
 import org.jetbrains.compose.resources.painterResource
 
@@ -23,7 +25,10 @@ import jobappclicker.shared.generated.resources.compose_multiplatform
 @Composable
 @Preview
 fun App() {
-    MainScreen();
+
+    val player = Player()
+    val controller = PlayerController(player)
+    MainScreen(controller)
     /*
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
