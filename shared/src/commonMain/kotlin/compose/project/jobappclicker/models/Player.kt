@@ -1,13 +1,16 @@
 package compose.project.jobappclicker.models
 
 import compose.project.jobappclicker.models.upgrades.Upgrade
+import compose.project.jobappclicker.models.upgrades.UpgradeCatalog
 
-class Player (
+class Player(
     var score: Int = 0,
+    var lifetimeScore: Int = 0,
     var clickRate: Int = 1,
     var autoClickPerSecond: Int = 0,
-    val upgrades: MutableList<Upgrade>
-) {
+    val upgrades: MutableList<Upgrade> = UpgradeCatalog.createDefaultUpgrade()
+)
+{
 
 }
 

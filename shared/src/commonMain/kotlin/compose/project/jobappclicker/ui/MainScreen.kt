@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.controllers.PlayerController
+import compose.project.jobappclicker.models.Player
 import compose.project.jobappclicker.models.upgrades.ClickerUpgrades
 import compose.project.jobappclicker.ui.colors.Black
 import compose.project.jobappclicker.ui.colors.Grey
@@ -40,7 +42,7 @@ import jobappclicker.shared.generated.resources.Res
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun MainScreen() {
+fun MainScreen(PlayerController: PlayerController) {
     var count by remember { mutableStateOf(0) }
 
 
@@ -110,6 +112,7 @@ fun MainScreen() {
                         shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
+                        PlayerController.click()
                         count += clickAmount
 
                     }
@@ -118,7 +121,7 @@ fun MainScreen() {
         Column (
             modifier = Modifier.weight(1f),
         ){
-            Text("Hello World")
+            Text("Hello !!!!!")
         }
         Column (
             modifier = Modifier.weight(1f),
