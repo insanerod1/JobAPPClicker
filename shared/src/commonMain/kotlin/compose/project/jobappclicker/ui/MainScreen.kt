@@ -56,7 +56,7 @@ fun MainScreen() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Count: ",
+                text = "Count: $count",
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -78,7 +78,7 @@ fun MainScreen() {
                         shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
-                        //when clicked logic (here)
+                        count++
 
                     }
             )
