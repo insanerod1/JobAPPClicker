@@ -1,4 +1,4 @@
-package compose.project.jobappclicker.models
+package compose.project.jobappclicker.models.upgrades
 
 /*
 Set with
@@ -11,12 +11,12 @@ val example = AutoClickerUpgrades(
 )
  */
 class AutoClickerUpgrades(
-val name: String,
+override val name: String,
 var numberPurchased: Int = 0,
 val autoClickIncrease: Int,
 val initCost: Int,
 val secondaryCostFactor: Int
-) {
+) : Upgrade(name, initCost, numberPurchased) {
     val currentCost: Int
     get() = secondaryCostFactor * numberPurchased + initCost
 
