@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import compose.project.jobappclicker.models.ClickerUpgrades
+import compose.project.jobappclicker.models.upgrades.ClickerUpgrades
 import compose.project.jobappclicker.ui.colors.Black
 import compose.project.jobappclicker.ui.colors.Grey
 import jobappclicker.shared.generated.resources.Application
