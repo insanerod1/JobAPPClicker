@@ -1,10 +1,12 @@
 package compose.project.jobappclicker.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,7 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.controllers.PlayerController
 import compose.project.jobappclicker.models.upgrades.ClickerUpgrades
 import compose.project.jobappclicker.ui.colors.Black
 import compose.project.jobappclicker.ui.colors.Grey
@@ -40,7 +46,7 @@ import jobappclicker.shared.generated.resources.Res
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun MainScreen() {
+fun MainScreen(controller: PlayerController) {
     var count by remember { mutableStateOf(0) }
 
 
@@ -115,42 +121,71 @@ fun MainScreen() {
                     }
             )
         }
-        Column (
-            modifier = Modifier.weight(1f),
-        ){
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+        ) {
+            // Pinned at the top
             Text(
                 text = "Click Upgrade",
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
-            upgrades.forEach { upgrade ->
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                val scrollState = rememberScrollState()
+
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .border(1.dp, Black, RoundedCornerShape(8.dp))
-                        .padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
-                ){
-                    Text(upgrade.name, fontWeight = FontWeight.Bold)
-                    Text("+${upgrade.clickIncrease} applications per click")
-                    Text("Owned: ${upgrade.numberPurchased}")
-                    Text("Cost: ${upgrade.currentCost}")
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
+                        .padding(end = 12.dp)
+                ) {
+                    upgrades.forEach { upgrade ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .border(
+                                    1.dp,
+                                    Black,
+                                    RoundedCornerShape(8.dp)
+                                )
+                                .padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Text(upgrade.name, fontWeight = FontWeight.Bold)
+                            Text("+${upgrade.clickIncrease} applications per click")
+                            Text("Owned: ${upgrade.numberPurchased}")
+                            Text("Cost: ${upgrade.currentCost}")
 
-                    Button(
-                        enabled = count >= upgrade.currentCost,
-                        onClick = {
-                            if (count>= upgrade.currentCost) {
-                                count-= upgrade.currentCost
-                                upgrade.purchase()
+                            Button(
+                                enabled = count >= upgrade.currentCost,
+                                onClick = {
+                                    if (count >= upgrade.currentCost) {
+                                        count -= upgrade.currentCost
+                                        upgrade.purchase()
+                                    }
+                                }
+                            ) {
+                                Text("Buy")
                             }
                         }
-                    ){
-                        Text("Buy")
                     }
-
                 }
 
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(scrollState),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .fillMaxHeight()
+                )
             }
         }
         Column (
