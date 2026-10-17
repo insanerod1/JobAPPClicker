@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.audioManager.SoundEffectsManager
 import compose.project.jobappclicker.controllers.PlayerController
 import compose.project.jobappclicker.models.upgrades.AutoClickerUpgrades
 import compose.project.jobappclicker.models.upgrades.ClickerUpgrades
@@ -47,6 +48,7 @@ import org.jetbrains.compose.resources.painterResource
 fun MainScreen(controller: PlayerController) {
     var count by remember { mutableStateOf(0) }
 
+    val soundEffects = remember {SoundEffectsManager()}
 
     val upgrades = remember {
         listOf(
@@ -167,7 +169,7 @@ fun MainScreen(controller: PlayerController) {
                     )
                     .clickable {
                         count += clickAmount
-
+                        soundEffects.playClickSound()
                     }
             )
         }
@@ -199,6 +201,7 @@ fun MainScreen(controller: PlayerController) {
                             if (count>= upgrade.currentCost) {
                                 count-= upgrade.currentCost
                                 upgrade.purchase()
+                                soundEffects.playPurchaseSound()
                             }
                         }
                     ){
@@ -240,6 +243,7 @@ fun MainScreen(controller: PlayerController) {
                             if (count >= cost) {
                                 count -= cost
                                 upgrade.purchase()
+                                soundEffects.playPurchaseSound()
                             }
                         }
                     ) {

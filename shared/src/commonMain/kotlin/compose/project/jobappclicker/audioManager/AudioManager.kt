@@ -31,13 +31,7 @@ class AudioManager(private val player: AudioPlayer) {
         player.play(audioUri)
     }
 
-    fun playClickSound() {
 
-    }
-
-    fun playPurchaseSound() {
-
-    }
 
     fun stopMusic() {
         player.stop()
