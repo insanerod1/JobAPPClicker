@@ -1,12 +1,10 @@
 package compose.project.jobappclicker.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -17,10 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -121,71 +116,42 @@ fun MainScreen(controller: PlayerController) {
                     }
             )
         }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        ) {
-            // Pinned at the top
+        Column (
+            modifier = Modifier.weight(1f),
+        ){
             Text(
                 text = "Click Upgrade",
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
-                modifier = Modifier.padding(bottom = 8.dp)
             )
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                val scrollState = rememberScrollState()
-
+            upgrades.forEach { upgrade ->
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState)
-                        .padding(end = 12.dp)
-                ) {
-                    upgrades.forEach { upgrade ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .border(
-                                    1.dp,
-                                    Black,
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .padding(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            Text(upgrade.name, fontWeight = FontWeight.Bold)
-                            Text("+${upgrade.clickIncrease} applications per click")
-                            Text("Owned: ${upgrade.numberPurchased}")
-                            Text("Cost: ${upgrade.currentCost}")
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .border(1.dp, Black, RoundedCornerShape(8.dp))
+                        .padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ){
+                    Text(upgrade.name, fontWeight = FontWeight.Bold)
+                    Text("+${upgrade.clickIncrease} applications per click")
+                    Text("Owned: ${upgrade.numberPurchased}")
+                    Text("Cost: ${upgrade.currentCost}")
 
-                            Button(
-                                enabled = count >= upgrade.currentCost,
-                                onClick = {
-                                    if (count >= upgrade.currentCost) {
-                                        count -= upgrade.currentCost
-                                        upgrade.purchase()
-                                    }
-                                }
-                            ) {
-                                Text("Buy")
+                    Button(
+                        enabled = count >= upgrade.currentCost,
+                        onClick = {
+                            if (count>= upgrade.currentCost) {
+                                count-= upgrade.currentCost
+                                upgrade.purchase()
                             }
                         }
+                    ){
+                        Text("Buy")
                     }
+
                 }
 
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(scrollState),
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .fillMaxHeight()
-                )
             }
         }
         Column (

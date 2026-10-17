@@ -6,7 +6,9 @@ interface GameStorage {
     // TODO: Convert GameSave to JSON in the storage implementation.
     // TODO: Browser implementation stores JSON in local storage.
     // TODO: Desktop implementation stores JSON in a save file.
-    fun save(game: GameSave)
+    fun save(game: GameSave) {
+
+    }
 
     //returns a saved play, or null if no save exists
     // TODO: Read stored JSON and convert it back into GameSave.
