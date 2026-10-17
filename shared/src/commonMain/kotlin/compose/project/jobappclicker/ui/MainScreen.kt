@@ -49,54 +49,18 @@ fun MainScreen(controller: PlayerController) {
 
 
     val upgrades = remember {
-        listOf(
-            ClickerUpgrades(
-                name = "Better Applications",
-                clickIncrease = 2,
-                initCost = 10,
-                secondaryCostFactor = 5
-            ),
-            ClickerUpgrades(
-                name = "Resume Improvements",
-                clickIncrease = 5,
-                initCost = 50,
-                secondaryCostFactor = 10
-            ),
-            ClickerUpgrades(
-                name = "One-Thousand Pencils",
-                clickIncrease = 10,
-                initCost = 500,
-                secondaryCostFactor = 100
-            )
-        )
+        controller.getUpgradeList()
     }
 
-    val autoClickerUpgrades = remember {
-        listOf(
-            AutoClickerUpgrades(
-                name = "Auto-Apply Script",
-                autoClickIncrease = 1,
-                initCost = 100,
-                secondaryCostFactor = 50
-            ),
-            AutoClickerUpgrades(
-                name = "Resume Submission Bot",
-                autoClickIncrease = 5,
-                initCost = 500,
-                secondaryCostFactor = 250
-            ),
-            AutoClickerUpgrades(
-                name = "Application Farm",
-                autoClickIncrease = 20,
-                initCost = 2500,
-                secondaryCostFactor = 1250
-            )
-        )
+    val clickUpgrades = remember(upgrades) {
+        upgrades.filterIsInstance<ClickerUpgrades>()
     }
 
+    val autoClickerUpgrades = remember(upgrades) {
+        upgrades.filterIsInstance<AutoClickerUpgrades>()
+    }
 
-
-    val clickAmount = 1 + upgrades.sumOf {
+    val clickAmount = 1 + clickUpgrades.sumOf {
         it.totalClickIncrease()
     }
 
@@ -179,7 +143,7 @@ fun MainScreen(controller: PlayerController) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
             )
-            upgrades.forEach { upgrade ->
+            clickUpgrades.forEach { upgrade ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

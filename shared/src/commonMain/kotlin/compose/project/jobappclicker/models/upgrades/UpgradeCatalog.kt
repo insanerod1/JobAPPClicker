@@ -1,24 +1,45 @@
 package compose.project.jobappclicker.models.upgrades
 
-import androidx.compose.animation.core.infiniteRepeatable
-
 object UpgradeCatalog {
-    fun createDefaultUpgrade(): MutableList<Upgrade>
-    {
+    fun createDefaultUpgrade(): MutableList<Upgrade> {
         return mutableListOf(
             ClickerUpgrades(
-                name = "",
-                numberPurchased = 0,
-                clickIncrease = 0,
-                secondaryCostFactor = 0,
-                initCost = 0
+                name = "Better Applications",
+                clickIncrease = 2,
+                initCost = 10,
+                secondaryCostFactor = 5
+            ),
+            ClickerUpgrades(
+                name = "Resume Improvements",
+                clickIncrease = 5,
+                initCost = 50,
+                secondaryCostFactor = 10
+            ),
+            ClickerUpgrades(
+                name = "One-Thousand Pencils",
+                clickIncrease = 10,
+                initCost = 500,
+                secondaryCostFactor = 100
+            ),
+
+
+            AutoClickerUpgrades(
+                name = "Auto-Apply Script",
+                autoClickIncrease = 1,
+                initCost = 100,
+                secondaryCostFactor = 50
             ),
             AutoClickerUpgrades(
-                name = "",
-                numberPurchased = 0,
-                autoClickIncrease = 0,
-                initCost = 0,
-                secondaryCostFactor = 0,
+                name = "Resume Submission Bot",
+                autoClickIncrease = 5,
+                initCost = 500,
+                secondaryCostFactor = 250
+            ),
+            AutoClickerUpgrades(
+                name = "Application Farm",
+                autoClickIncrease = 20,
+                initCost = 2500,
+                secondaryCostFactor = 1250
             )
         )
     }
