@@ -1,8 +1,10 @@
 package compose.project.jobappclicker.storage
 
+import kotlinx.serialization.Serializable
 
 
 // TODO: Add kotlinx.serialization
+
 data class SavedUpgrade(
     val upgradeId: String, //identifies upgrade
     val quantityPurchased: Int=0 //stores purchased quantity
