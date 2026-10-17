@@ -96,10 +96,10 @@ fun MainScreen(controller: PlayerController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Count: $count",
+                text = "Applications Sent: $count",
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 30.sp,
+                fontSize = 25.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 10.dp)
             )
