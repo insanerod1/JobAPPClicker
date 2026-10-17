@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,11 +34,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.jobappclicker.controllers.PlayerController
+import compose.project.jobappclicker.models.upgrades.AutoClickerUpgrades
 import compose.project.jobappclicker.models.upgrades.ClickerUpgrades
 import compose.project.jobappclicker.ui.colors.Black
 import compose.project.jobappclicker.ui.colors.Grey
 import jobappclicker.shared.generated.resources.Application
 import jobappclicker.shared.generated.resources.Res
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -68,12 +71,50 @@ fun MainScreen(controller: PlayerController) {
         )
     }
 
-    //Upgrades purchased with upgrades[i].purchase()
-    //TODO: make a button that can purchase upgrades and autoclickers
+    val autoClickerUpgrades = remember {
+        listOf(
+            AutoClickerUpgrades(
+                name = "Auto-Apply Script",
+                autoClickIncrease = 1,
+                initCost = 100,
+                secondaryCostFactor = 50
+            ),
+            AutoClickerUpgrades(
+                name = "Resume Submission Bot",
+                autoClickIncrease = 5,
+                initCost = 500,
+                secondaryCostFactor = 250
+            ),
+            AutoClickerUpgrades(
+                name = "Application Farm",
+                autoClickIncrease = 20,
+                initCost = 2500,
+                secondaryCostFactor = 1250
+            )
+        )
+    }
+
+
 
     val clickAmount = 1 + upgrades.sumOf {
         it.totalClickIncrease()
     }
+
+    val autoClickRate = autoClickerUpgrades.sumOf {
+        it.totalAutoClickIncrease()
+    }
+
+    LaunchedEffect(autoClickRate) {
+        while (autoClickRate > 0) {
+            delay(1000L)
+            count += autoClickRate
+        }
+    }
+
+    val clickApplicationWord =
+        if (clickAmount == 1) "application" else "applications"
+    val applicationWord =
+        if (autoClickRate == 1) "application" else "applications"
 
     Row (
         modifier = Modifier
@@ -93,6 +134,20 @@ fun MainScreen(controller: PlayerController) {
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+            Text(
+                text = "$clickAmount $clickApplicationWord per click",
+                color = Color.White,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = "$autoClickRate $applicationWord per second",
+                color = Color.White,
+                fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 10.dp)
             )
@@ -154,10 +209,44 @@ fun MainScreen(controller: PlayerController) {
 
             }
         }
-        Column (
-            modifier = Modifier.weight(1f),
-        ){
-            Text("this is column three")
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = "Autoclicker Upgrades",
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp
+            )
+
+
+            autoClickerUpgrades.forEach { upgrade ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .border(1.dp, Black, RoundedCornerShape(8.dp))
+                        .padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(upgrade.name, fontWeight = FontWeight.Bold)
+                    Text("+${upgrade.autoClickIncrease} applications per second")
+                    Text("Owned: ${upgrade.numberPurchased}")
+                    Text("Cost: ${upgrade.currentCost}")
+
+                    Button(
+                        enabled = count >= upgrade.currentCost,
+                        onClick = {
+                            val cost = upgrade.currentCost
+                            if (count >= cost) {
+                                count -= cost
+                                upgrade.purchase()
+                            }
+                        }
+                    ) {
+                        Text("Buy")
+                    }
+                }
+            }
         }
     }
 
