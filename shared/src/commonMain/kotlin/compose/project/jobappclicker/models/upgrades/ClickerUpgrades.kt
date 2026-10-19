@@ -12,7 +12,7 @@ val example = ClickerUpgrades(
  */
 class ClickerUpgrades(
     override val name: String,
-    var numberPurchased: Int = 0,
+    override var numberPurchased: Int = 0,
     val clickIncrease: Int,
     val secondaryCostFactor: Int,
     val initCost: Int
