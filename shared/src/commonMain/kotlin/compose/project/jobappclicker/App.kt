@@ -24,12 +24,32 @@ import org.jetbrains.compose.resources.painterResource
 import jobappclicker.shared.generated.resources.Res
 import jobappclicker.shared.generated.resources.compose_multiplatform
 
+import compose.project.jobappclicker.storage.GameStorage
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+
 @Composable
-@Preview
-fun App() {
+fun App(storage: GameStorage? = null) {
+    val controller = remember(storage) {
+        val player = Player()
+        val controller = PlayerController(player)
+
+        storage?.load()?.let { save ->
+            controller.restoreSave(save)
+        }
+        controller
+    }
+
+    LaunchedEffect(storage, controller){
+        val gameStorage = storage?: return@LaunchedEffect
+
+        while (isActive) {
+            delay(5000)
+            gameStorage.save(controller.createSave())
+        }
+    }
+
     BackgroundMusic()
-    val player = Player()
-    val controller = PlayerController(player)
     MainScreen(controller)
     /*
     MaterialTheme {

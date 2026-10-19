@@ -52,11 +52,13 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MainScreen(controller: PlayerController) {
-    var count by remember { mutableStateOf(0) }
+    var count by remember(controller) {
+        mutableStateOf(controller.getScore())
+    }
 
     val soundEffects = remember {SoundEffectsManager()}
 
-    val upgrades = remember {
+    val upgrades = remember(controller) {
         controller.getUpgradeList()
     }
 
@@ -79,7 +81,8 @@ fun MainScreen(controller: PlayerController) {
     LaunchedEffect(autoClickRate) {
         while (autoClickRate > 0) {
             delay(1000L)
-            count += autoClickRate
+            controller.earnApplications(autoClickRate)
+            count = controller.getScore()
         }
     }
 
@@ -150,7 +153,8 @@ fun MainScreen(controller: PlayerController) {
                         shape = RoundedCornerShape(16.dp)
                     )
                     .clickable {
-                        count += clickAmount
+                        controller.earnApplications(clickAmount)
+                        count = controller.getScore()
                         soundEffects.playClickSound()
                     }
             )
@@ -243,13 +247,14 @@ fun MainScreen(controller: PlayerController) {
                             Button(
                                 enabled = count >= upgrade.currentCost,
                                 onClick = {
-                                    val cost = upgrade.currentCost
-                                    if (count >= cost) {
-                                        count -= cost
+                                   val cost = upgrade.currentCost
+                                    if(controller.spendApplications(cost)){
                                         upgrade.purchase()
+                                        count = controller.getScore()
                                         soundEffects.playPurchaseSound()
                                     }
                                 }
+
                             ) {
                                 Text("Buy")
                             }
@@ -305,9 +310,9 @@ fun MainScreen(controller: PlayerController) {
                                 enabled = count >= upgrade.currentCost,
                                 onClick = {
                                     val cost = upgrade.currentCost
-                                    if (count >= cost) {
-                                        count -= cost
+                                    if (controller.spendApplications(cost)){
                                         upgrade.purchase()
+                                        count = controller.getScore()
                                     }
                                 }
                             ) {

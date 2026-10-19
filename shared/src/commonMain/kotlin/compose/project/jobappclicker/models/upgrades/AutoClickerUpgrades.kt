@@ -12,7 +12,7 @@ val example = AutoClickerUpgrades(
  */
 class AutoClickerUpgrades(
 override val name: String,
-var numberPurchased: Int = 0,
+override var numberPurchased: Int = 0,
 val autoClickIncrease: Int,
 val initCost: Int,
 val secondaryCostFactor: Int
