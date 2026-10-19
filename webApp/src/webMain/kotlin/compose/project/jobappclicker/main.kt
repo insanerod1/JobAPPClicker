@@ -9,7 +9,8 @@ import compose.project.jobappclicker.storage.GameSave
 fun main() {
     val storage = BrowserGameStorage()
 
+
     ComposeViewport {
-        App()
+        App(storage)
     }
 }

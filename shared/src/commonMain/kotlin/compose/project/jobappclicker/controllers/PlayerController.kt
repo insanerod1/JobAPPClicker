@@ -54,4 +54,14 @@ class PlayerController(private val player: Player) {
             .filterIsInstance<AutoClickerUpgrades>()
             .sumOf { it.totalAutoClickIncrease() }
     }
+    fun earnApplications(amount: Int){
+        player.score += amount
+        player.lifetimeScore += amount
+    }
+    fun spendApplications(amount: Int): Boolean{
+        if (player.score < amount) return false
+
+        player.score -= amount
+        return true
+    }
 }
