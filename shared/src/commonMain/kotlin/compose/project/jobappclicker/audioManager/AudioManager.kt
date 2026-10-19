@@ -12,6 +12,7 @@ class AudioManager(private val player: AudioPlayer) {
 
     fun playPlaylist() {
         currentTrackIndex = 0
+        player.setVolume(0.5f)
         playCurrentTrack()
     }
 
