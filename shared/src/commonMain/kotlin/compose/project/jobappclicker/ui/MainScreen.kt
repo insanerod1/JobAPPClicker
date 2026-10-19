@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -98,22 +99,31 @@ fun MainScreen(controller: PlayerController) {
             .fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Column (
-            modifier = Modifier
-                .weight(1f)
+        Column(
+            modifier = Modifier.weight(1f)
                 .background(Grey)
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Applications Sent: $count",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
+            Box (
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+            Column (
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(bottom = 20.dp)
+            ) {
+                Text(
+                    text = "Applications Sent: $count",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 10.dp)
+                )
             Text(
                 text = "$clickAmount $clickApplicationWord per click",
                 color = Color.White,
@@ -148,6 +158,55 @@ fun MainScreen(controller: PlayerController) {
                         soundEffects.playClickSound()
                     }
             )
+            }
+        }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .padding(bottom = 20.dp, start = 20.dp, end = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(25.dp),
+                verticalAlignment = Alignment.Bottom,
+
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
+                        .clickable{
+                            //TODO screen switch
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Statsview",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
+                        .clickable{
+                            //TODO screenswitch
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Settings",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                    )
+                }
+            }
         }
         Column(
             modifier = Modifier
@@ -192,6 +251,7 @@ fun MainScreen(controller: PlayerController) {
                                     if(controller.spendApplications(cost)){
                                         upgrade.purchase()
                                         count = controller.getScore()
+                                        soundEffects.playPurchaseSound()
                                     }
                                 }
 
