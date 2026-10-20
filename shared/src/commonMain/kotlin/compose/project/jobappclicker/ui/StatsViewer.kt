@@ -76,6 +76,7 @@ fun StatsViewer(
             )
             Text("Current applications: $score")
             Text("Lifetime applications earned: $lifetimeScore")
+            Text("Job offers: 0")
 
             Button(onClick = onClose) {
                 Text("Back")
