@@ -78,6 +78,8 @@ fun MainScreen(controller: PlayerController) {
         it.totalAutoClickIncrease()
     }
 
+    var showSettings by remember { mutableStateOf(false) }
+
     LaunchedEffect(autoClickRate) {
         while (autoClickRate > 0) {
             delay(1000L)
@@ -94,241 +96,247 @@ fun MainScreen(controller: PlayerController) {
     val clickUpgradeScrollState = rememberScrollState()
     val autoClickerScrollState = rememberScrollState()
 
-    Row (
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-                .background(Grey)
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+    Box(modifier = Modifier.fillMaxSize()) {
+        Row (
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Box (
+            Column(
+                modifier = Modifier.weight(1f)
+                    .background(Grey)
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Box (
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(bottom = 20.dp)
+                    ) {
+                        Text(
+                            text = "Applications Sent: $count",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 25.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                        Text(
+                            text = "$clickAmount $clickApplicationWord per click",
+                            color = Color.White,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = "$autoClickRate $applicationWord per second",
+                            color = Color.White,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+
+                        Image(
+                            painter = painterResource(Res.drawable.Application),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .width(400.dp)
+                                .aspectRatio(0.75f)
+                                .clip(RoundedCornerShape(16.dp))
+                                .border(
+                                    width = 2.dp,
+                                    color = Black,
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .clickable {
+                                    controller.earnApplications(clickAmount)
+                                    count = controller.getScore()
+                                    soundEffects.playClickSound()
+                                }
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .padding(bottom = 20.dp, start = 20.dp, end = 20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(25.dp),
+                    verticalAlignment = Alignment.Bottom,
+
+                    ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
+                            .clickable{
+                                //TODO screen switch
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Statsview",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
+                            .clickable{
+                                showSettings = true
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Settings",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                        )
+                    }
+                }
+            }
+            Column(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-            Column (
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(bottom = 20.dp)
+                    .fillMaxHeight()
             ) {
                 Text(
-                    text = "Applications Sent: $count",
-                    color = Color.White,
+                    text = "Click Upgrades",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 10.dp)
+                    fontSize = 30.sp
                 )
-            Text(
-                text = "$clickAmount $clickApplicationWord per click",
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                text = "$autoClickRate $applicationWord per second",
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-
-            Image(
-                painter = painterResource(Res.drawable.Application),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .width(400.dp)
-                    .aspectRatio(0.75f)
-                    .clip(RoundedCornerShape(16.dp))
-                    .border(
-                        width = 2.dp,
-                        color = Black,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .clickable {
-                        controller.earnApplications(clickAmount)
-                        count = controller.getScore()
-                        soundEffects.playClickSound()
-                    }
-            )
-            }
-        }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .padding(bottom = 20.dp, start = 20.dp, end = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(25.dp),
-                verticalAlignment = Alignment.Bottom,
-
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(50.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
-                        .clickable{
-                            //TODO screen switch
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Statsview",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                    )
-                }
 
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(50.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
-                        .clickable{
-                            //TODO screenswitch
-                        },
-                    contentAlignment = Alignment.Center
+                        .fillMaxWidth()
                 ) {
-                    Text(
-                        text = "Settings",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(end = 12.dp)
+                            .verticalScroll(clickUpgradeScrollState)
+                    ) {
+                        clickUpgrades.forEach { upgrade ->
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                                    .border(1.dp, Black, RoundedCornerShape(8.dp))
+                                    .padding(12.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Text(upgrade.name, fontWeight = FontWeight.Bold)
+                                Text("+${upgrade.clickIncrease} applications per click")
+                                Text("Owned: ${upgrade.numberPurchased}")
+                                Text("Cost: ${upgrade.currentCost}")
+
+                                Button(
+                                    enabled = count >= upgrade.currentCost,
+                                    onClick = {
+                                        val cost = upgrade.currentCost
+                                        if(controller.spendApplications(cost)){
+                                            upgrade.purchase()
+                                            count = controller.getScore()
+                                            soundEffects.playPurchaseSound()
+                                        }
+                                    }
+
+                                ) {
+                                    Text("Buy")
+                                }
+                            }
+                        }
+                    }
+
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(clickUpgradeScrollState),
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .fillMaxHeight()
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {
+                Text(
+                    text = "Autoclicker Upgrades",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp
+                )
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(end = 12.dp)
+                            .verticalScroll(autoClickerScrollState)
+                    ) {
+                        autoClickerUpgrades.forEach { upgrade ->
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                                    .border(1.dp, Black, RoundedCornerShape(8.dp))
+                                    .padding(12.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Text(upgrade.name, fontWeight = FontWeight.Bold)
+                                Text("+${upgrade.autoClickIncrease} applications per second")
+                                Text("Owned: ${upgrade.numberPurchased}")
+                                Text("Cost: ${upgrade.currentCost}")
+
+                                Button(
+                                    enabled = count >= upgrade.currentCost,
+                                    onClick = {
+                                        val cost = upgrade.currentCost
+                                        if (controller.spendApplications(cost)){
+                                            upgrade.purchase()
+                                            count = controller.getScore()
+                                        }
+                                    }
+                                ) {
+                                    Text("Buy")
+                                }
+                            }
+                        }
+                    }
+
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(autoClickerScrollState),
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .fillMaxHeight()
                     )
                 }
             }
         }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        ) {
-            Text(
-                text = "Click Upgrades",
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp
-            )
 
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 12.dp)
-                        .verticalScroll(clickUpgradeScrollState)
-                ) {
-                    clickUpgrades.forEach { upgrade ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .border(1.dp, Black, RoundedCornerShape(8.dp))
-                                .padding(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            Text(upgrade.name, fontWeight = FontWeight.Bold)
-                            Text("+${upgrade.clickIncrease} applications per click")
-                            Text("Owned: ${upgrade.numberPurchased}")
-                            Text("Cost: ${upgrade.currentCost}")
-
-                            Button(
-                                enabled = count >= upgrade.currentCost,
-                                onClick = {
-                                   val cost = upgrade.currentCost
-                                    if(controller.spendApplications(cost)){
-                                        upgrade.purchase()
-                                        count = controller.getScore()
-                                        soundEffects.playPurchaseSound()
-                                    }
-                                }
-
-                            ) {
-                                Text("Buy")
-                            }
-                        }
-                    }
-                }
-
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(clickUpgradeScrollState),
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .fillMaxHeight()
-                )
-            }
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        ) {
-            Text(
-                text = "Autoclicker Upgrades",
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp
-            )
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 12.dp)
-                        .verticalScroll(autoClickerScrollState)
-                ) {
-                    autoClickerUpgrades.forEach { upgrade ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .border(1.dp, Black, RoundedCornerShape(8.dp))
-                                .padding(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            Text(upgrade.name, fontWeight = FontWeight.Bold)
-                            Text("+${upgrade.autoClickIncrease} applications per second")
-                            Text("Owned: ${upgrade.numberPurchased}")
-                            Text("Cost: ${upgrade.currentCost}")
-
-                            Button(
-                                enabled = count >= upgrade.currentCost,
-                                onClick = {
-                                    val cost = upgrade.currentCost
-                                    if (controller.spendApplications(cost)){
-                                        upgrade.purchase()
-                                        count = controller.getScore()
-                                    }
-                                }
-                            ) {
-                                Text("Buy")
-                            }
-                        }
-                    }
-                }
-
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(autoClickerScrollState),
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .fillMaxHeight()
-                )
-            }
+        if(showSettings) {
+            SettingsView(onClose = {showSettings = false})
         }
     }
 
