@@ -16,6 +16,7 @@ class Player(
         score = 0
         clickRate = 1
         autoClickPerSecond = 0
+        lifetimeScore = 0
         for  (Upgrade in upgrades)
         {
             Upgrade.resetUpgrade()

@@ -169,8 +169,9 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
             text = { Text("Are you sure?") },
             confirmButton = {
                 TextButton(onClick = {
-                    showDeleteConfirmation = false
                     controller.reset()
+                    showDeleteConfirmation = false
+
                 }) {
                     Text("Yes")
                 }
