@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.audioManager.AudioSettings
 import compose.project.jobappclicker.ui.colors.Black
 import jobappclicker.shared.generated.resources.Delete
 import jobappclicker.shared.generated.resources.MusicOff
@@ -43,8 +44,8 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SettingsView(onClose: () -> Unit) {
-    var soundEnabled by remember { mutableStateOf(true) }
-    var musicEnabled by remember { mutableStateOf(true) }
+    val soundEnabled = AudioSettings.soundEnabled
+    val musicEnabled = AudioSettings.musicEnabled
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     val backdropInteractions = remember { MutableInteractionSource() }
@@ -83,6 +84,8 @@ fun SettingsView(onClose: () -> Unit) {
                 fontSize = 28.sp
             )
 
+            Text("Game settings")
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -104,7 +107,10 @@ fun SettingsView(onClose: () -> Unit) {
                         colorFilter = ColorFilter.tint(Color(0xFF333333)),
                         modifier = Modifier
                             .size(48.dp)
-                            .clickable { soundEnabled = !soundEnabled }
+                            .clickable {
+                                AudioSettings.soundEnabled =
+                                    !AudioSettings.soundEnabled
+                            }
                     )
                     Text("Sound")
                 }
@@ -126,7 +132,10 @@ fun SettingsView(onClose: () -> Unit) {
                         colorFilter = ColorFilter.tint(Color(0xFF333333)),
                         modifier = Modifier
                             .size(48.dp)
-                            .clickable { musicEnabled = !musicEnabled }
+                            .clickable {
+                                AudioSettings.musicEnabled =
+                                    !AudioSettings.musicEnabled
+                            }
                     )
                     Text("Music")
                 }
@@ -138,7 +147,9 @@ fun SettingsView(onClose: () -> Unit) {
                         colorFilter = ColorFilter.tint(Color(0xFF333333)),
                         modifier = Modifier
                             .size(48.dp)
-                            .clickable { showDeleteConfirmation = true }
+                            .clickable {
+                                showDeleteConfirmation = true
+                            }
                     )
                     Text("Delete")
                 }

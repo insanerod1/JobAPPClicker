@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import io.github.kdroidfilter.composemediaplayer.audio.AudioPlayer
 import io.github.kdroidfilter.composemediaplayer.audio.AudioPlayerState
 import io.github.kdroidfilter.composemediaplayer.audio.rememberAudioPlayerLiveState
 
@@ -15,29 +14,37 @@ fun BackgroundMusic() {
     val audioState = rememberAudioPlayerLiveState()
 
     val audioManager = remember {
-       AudioManager(audioState.player)
+        AudioManager(audioState.player)
     }
 
+    val musicEnabled = AudioSettings.musicEnabled
     var wasPlaying by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        audioManager.playPlaylist()
+    LaunchedEffect(musicEnabled) {
+        if (musicEnabled) {
+            audioManager.playPlaylist()
+        } else {
+            wasPlaying = false
+            audioManager.stopMusic()
+        }
     }
 
-    LaunchedEffect(audioState.state) {
+    LaunchedEffect(audioState.state, musicEnabled) {
         when (audioState.state) {
             AudioPlayerState.PLAYING -> {
-                wasPlaying = true
+                wasPlaying = musicEnabled
             }
 
             AudioPlayerState.IDLE -> {
-                if (wasPlaying) {
+                if (musicEnabled && wasPlaying) {
                     wasPlaying = false
                     audioManager.playNextTrack()
                 }
             }
-        else -> {
-            //if paused or buffering
-        }}
+
+            else -> {
+                // Do nothing while paused or buffering.
+            }
+        }
     }
 }
