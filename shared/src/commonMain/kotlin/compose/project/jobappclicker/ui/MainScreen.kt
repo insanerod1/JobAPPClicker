@@ -123,7 +123,7 @@ fun MainScreen(controller: PlayerController) {
                         modifier = Modifier.padding(bottom = 20.dp)
                     ) {
                         Text(
-                            text = "Applications Sent: $count",
+                            text = "Applications Sent: ${controller.getScore()}",
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
@@ -340,7 +340,7 @@ fun MainScreen(controller: PlayerController) {
         }
         if(showStats){
             StatsViewer(
-                score = count,
+                score = controller.getScore(),
                 lifetimeScore = controller.getLifetimeScore(),
                 onClose = {showStats = false}
             )
