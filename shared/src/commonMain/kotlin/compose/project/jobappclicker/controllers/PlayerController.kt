@@ -64,4 +64,9 @@ class PlayerController(private val player: Player) {
         player.score -= amount
         return true
     }
+
+    fun reset()
+    {
+     player.reset()
+    }
 }

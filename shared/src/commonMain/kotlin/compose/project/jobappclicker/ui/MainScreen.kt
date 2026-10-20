@@ -199,6 +199,7 @@ fun MainScreen(controller: PlayerController) {
                             .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
                             .clickable{
                                 showSettings = true
+                                count = controller.getScore()
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -336,7 +337,7 @@ fun MainScreen(controller: PlayerController) {
         }
 
         if(showSettings) {
-            SettingsView(onClose = {showSettings = false})
+            SettingsView(onClose = {showSettings = false}, controller,)
         }
     }
 

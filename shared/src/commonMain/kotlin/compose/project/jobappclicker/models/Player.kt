@@ -11,6 +11,17 @@ class Player(
     val upgrades: MutableList<Upgrade> = UpgradeCatalog.createDefaultUpgrade()
 )
 {
+    fun reset()
+    {
+        score = 0
+        clickRate = 1
+        autoClickPerSecond = 0
+        for  (Upgrade in upgrades)
+        {
+            Upgrade.resetUpgrade()
+        }
+
+    }
 
 }
 

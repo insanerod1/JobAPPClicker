@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.jobappclicker.audioManager.AudioSettings
+import compose.project.jobappclicker.controllers.PlayerController
 import compose.project.jobappclicker.ui.colors.Black
 import jobappclicker.shared.generated.resources.Delete
 import jobappclicker.shared.generated.resources.MusicOff
@@ -43,7 +44,7 @@ import jobappclicker.shared.generated.resources.SoundOn
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun SettingsView(onClose: () -> Unit) {
+fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
     val soundEnabled = AudioSettings.soundEnabled
     val musicEnabled = AudioSettings.musicEnabled
     var showDeleteConfirmation by remember { mutableStateOf(false) }
@@ -167,7 +168,10 @@ fun SettingsView(onClose: () -> Unit) {
             title = { Text("Delete user data") },
             text = { Text("Are you sure?") },
             confirmButton = {
-                TextButton(onClick = { showDeleteConfirmation = false }) {
+                TextButton(onClick = {
+                    showDeleteConfirmation = false
+                    controller.reset()
+                }) {
                     Text("Yes")
                 }
             },

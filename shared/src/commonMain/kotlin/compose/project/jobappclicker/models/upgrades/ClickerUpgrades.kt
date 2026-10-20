@@ -15,8 +15,8 @@ class ClickerUpgrades(
     override var numberPurchased: Int = 0,
     val clickIncrease: Int,
     val secondaryCostFactor: Int,
-    val initCost: Int
-) : Upgrade(name, initCost, numberPurchased){
+    override var initCost: Int
+) : Upgrade(name, initCost, numberPurchased, initCost){
     val currentCost: Int
         get() = secondaryCostFactor * numberPurchased + initCost
 
