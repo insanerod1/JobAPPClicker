@@ -19,6 +19,10 @@ class PlayerController(private val player: Player) {
     fun getScore(): Int {
         return player.score
     }
+
+    fun getLifetimeScore(): Int{
+        return player.lifetimeScore
+    }
     fun getUpgradeList(): List<Upgrade> {
         return player.upgrades
     }

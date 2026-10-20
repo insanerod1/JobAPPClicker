@@ -80,6 +80,8 @@ fun MainScreen(controller: PlayerController) {
 
     var showSettings by remember { mutableStateOf(false) }
 
+    var showStats by remember { mutableStateOf(false) }
+
     LaunchedEffect(autoClickRate) {
         while (autoClickRate > 0) {
             delay(1000L)
@@ -179,7 +181,7 @@ fun MainScreen(controller: PlayerController) {
                             .clip(RoundedCornerShape(16.dp))
                             .border(color = Black, width = 2.dp, shape = RoundedCornerShape(16.dp))
                             .clickable{
-                                //TODO screen switch
+                                showStats = true
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -334,6 +336,13 @@ fun MainScreen(controller: PlayerController) {
                     )
                 }
             }
+        }
+        if(showStats){
+            StatsViewer(
+                score = count,
+                lifetimeScore = controller.getLifetimeScore(),
+                onClose = {showStats = false}
+            )
         }
 
         if(showSettings) {

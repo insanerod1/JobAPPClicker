@@ -1,9 +1,18 @@
-package compose.project.jobappclicker.ui
+ package compose.project.jobappclicker.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,31 +21,65 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.tooling.ComposeToolingApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import compose.project.jobappclicker.controllers.PlayerController
+import androidx.compose.material3.Button
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import compose.project.jobappclicker.ui.colors.Black
+ import androidx.compose.foundation.layout.Box
 
 @Composable
-fun StatsViewer(controller: PlayerController) {
-    var count by remember { mutableStateOf(0) }
+fun StatsViewer(
+    score: Int,
+    lifetimeScore: Int,
+    onClose: () -> Unit
+) {
 
-    Row (
+    val backdropInteractions = remember { MutableInteractionSource() }
+    val panelInteractions = remember { MutableInteractionSource() }
+
+    Box(
         modifier = Modifier
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.55f))
+            .clickable(
+                interactionSource = backdropInteractions,
+                indication = null,
+                onClick = onClose
+            ),
+        contentAlignment = Alignment.Center
     ){
-        Column (
+        Column(
             modifier = Modifier
+                .widthIn(max = 420.dp)
+                .fillMaxWidth(0.9f)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White)
+                .border(2.dp, Black, RoundedCornerShape(16.dp))
+                .clickable(
+                    interactionSource = panelInteractions,
+                    indication = null,
+                    onClick = {}
+                )
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "this is column 1"
+                text = "Stats",
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp
             )
-        }
-        Column (
-            modifier = Modifier
-        ){
-            Text(
-                text = "this is column 2",
-            )
+            Text("Current applications: $score")
+            Text("Lifetime applications earned: $lifetimeScore")
+
+            Button(onClick = onClose) {
+                Text("Back")
+            }
         }
     }
 }
