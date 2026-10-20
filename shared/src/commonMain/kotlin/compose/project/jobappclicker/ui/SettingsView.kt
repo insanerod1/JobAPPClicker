@@ -85,8 +85,6 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
                 fontSize = 28.sp
             )
 
-            Text("Game settings")
-
             Row(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -152,7 +150,7 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
                                 showDeleteConfirmation = true
                             }
                     )
-                    Text("Delete")
+                    Text("Reset")
                 }
             }
 
