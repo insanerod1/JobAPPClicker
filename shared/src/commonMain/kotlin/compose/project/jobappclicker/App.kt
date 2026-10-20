@@ -1,30 +1,13 @@
 package compose.project.jobappclicker
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import compose.project.jobappclicker.audioManager.AudioManager
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import compose.project.jobappclicker.audioManager.BackgroundMusic
 import compose.project.jobappclicker.controllers.PlayerController
 import compose.project.jobappclicker.models.Player
-import compose.project.jobappclicker.ui.MainScreen
-import org.jetbrains.compose.resources.painterResource
-
-import jobappclicker.shared.generated.resources.Res
-import jobappclicker.shared.generated.resources.compose_multiplatform
-
 import compose.project.jobappclicker.storage.GameStorage
+import compose.project.jobappclicker.ui.MainScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
