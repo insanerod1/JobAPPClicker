@@ -72,6 +72,7 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                //Sound toggle
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(
@@ -96,7 +97,7 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
                     )
                     Text("Sound")
                 }
-
+                //Music toggle
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(
@@ -121,7 +122,7 @@ fun SettingsView(onClose: () -> Unit, controller: PlayerController) {
                     )
                     Text("Music")
                 }
-
+                //Reset Button
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(Res.drawable.Delete),

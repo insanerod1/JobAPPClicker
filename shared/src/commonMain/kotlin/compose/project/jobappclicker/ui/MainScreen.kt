@@ -37,19 +37,19 @@ fun MainScreen(controller: PlayerController) {
     val upgrades = remember(controller) {
         controller.getUpgradeList()
     }
-
+    //Filter ClickerUpgrades from List
     val clickUpgrades = remember(upgrades) {
         upgrades.filterIsInstance<ClickerUpgrades>()
     }
-
+    //Filter AutoclickerUpgrades from List
     val autoClickerUpgrades = remember(upgrades) {
         upgrades.filterIsInstance<AutoClickerUpgrades>()
     }
-
+    //Count per click
     val clickAmount = 1 + clickUpgrades.sumOf {
         it.totalClickIncrease()
     }
-
+    //Count per second
     val autoClickRate = autoClickerUpgrades.sumOf {
         it.totalAutoClickIncrease()
     }
@@ -57,7 +57,7 @@ fun MainScreen(controller: PlayerController) {
     var showSettings by remember { mutableStateOf(false) }
 
     var showStats by remember { mutableStateOf(false) }
-
+    //Autoclicker function
     LaunchedEffect(autoClickRate) {
         while (autoClickRate > 0) {
             delay(1000L)
@@ -93,6 +93,7 @@ fun MainScreen(controller: PlayerController) {
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
+                    //Column 1, clicker
                     Column (
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.padding(bottom = 20.dp)
@@ -190,6 +191,7 @@ fun MainScreen(controller: PlayerController) {
                     }
                 }
             }
+            //Column 2, click upgrades
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -243,7 +245,6 @@ fun MainScreen(controller: PlayerController) {
                             }
                         }
                     }
-
                     VerticalScrollbar(
                         adapter = rememberScrollbarAdapter(clickUpgradeScrollState),
                         modifier = Modifier
@@ -252,6 +253,7 @@ fun MainScreen(controller: PlayerController) {
                     )
                 }
             }
+            //3rd Column, Autoclicker upgrades
             Column(
                 modifier = Modifier
                     .weight(1f)
