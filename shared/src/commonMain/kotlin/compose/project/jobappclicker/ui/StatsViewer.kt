@@ -19,13 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.project.jobappclicker.ui.colors.Black
 
+ //composable transforms kotlin functions into UI-emitting elements
  @Composable
 fun StatsViewer(
     score: Int,
     lifetimeScore: Int,
     onClose: () -> Unit
 ) {
-
+    //
     val backdropInteractions = remember { MutableInteractionSource() }
     val panelInteractions = remember { MutableInteractionSource() }
 

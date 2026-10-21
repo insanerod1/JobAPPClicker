@@ -11,6 +11,7 @@ import compose.project.jobappclicker.ui.MainScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
+//? means it can be null
 @Composable
 fun App(storage: GameStorage? = null) {
     val controller = remember(storage) {
@@ -27,7 +28,7 @@ fun App(storage: GameStorage? = null) {
         val gameStorage = storage?: return@LaunchedEffect
 
         while (isActive) {
-            delay(5000)
+            delay(5000) //wait 5 seconds, code saves and then repeats the loop
             gameStorage.save(controller.createSave())
         }
     }

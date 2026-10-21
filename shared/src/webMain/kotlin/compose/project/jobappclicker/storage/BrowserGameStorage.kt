@@ -13,7 +13,7 @@ class BrowserGameStorage(
         ignoreUnknownKeys = true
     }
 
-    //converts your data intp JSON and stores it
+    //converts your data into JSON and stores it
     override fun save(game: GameSave) {
         val jsonText = json.encodeToString(game)
         localStorage.setItem(saveKey, jsonText)
